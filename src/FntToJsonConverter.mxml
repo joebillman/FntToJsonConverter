@@ -24,8 +24,13 @@
 			//  Private:
 			//----------------------------------
 			
-			private var fileSystem:File;
+			private var animations:Array;
+			private var charList:XMLList;
+			private var fileStream:FileStream
+			private var file:File;
+			private var frames:Array;
 			private var urlToFile:String;
+			private var fntXML:XML;
 			
 			//--------------------------------------------------------------------------
 			//
@@ -49,9 +54,62 @@
 			
 			private function createFileSystem():void
 			{
-				fileSystem = new File();
-				fileSystem.addEventListener(Event.CANCEL, handleCancel, false, 0, true);
-				fileSystem.addEventListener(Event.SELECT, handleSelect, false, 0, true);
+				file = new File();
+				file.addEventListener(Event.CANCEL, handleCancel, false, 0, true);
+				file.addEventListener(Event.SELECT, handleSelect, false, 0, true);
+			}
+			
+			private function generateOutput():void
+			{
+				var curFrame:Object;
+				
+				frames = [];
+				animations = [];
+				
+				var len:uint = charList.length();
+				for(var i:int=0; i<len; i++) 
+				{
+					curFrame = {};
+					curFrame.x = charList[i].@x;
+					curFrame.y = charList[i].@y;
+					curFrame.width = charList[i].@width;
+					curFrame.height = charList[i].@height;
+					frames.push(curFrame);
+					animations.push(String.fromCharCode(charList[i].@id));
+				}
+				output.text = "{\n\n";
+				output.text += "\t\"images\": [\n";
+				output.text += "\t\t\""+fntXML.pages[0].page[0].@file+"\"\n";
+				output.text += "\t]\n\n";
+				output.text += "\t\"frames\": [\n";
+				len = frames.length;
+				for(i=0; i<len; i++) 
+				{
+					if(i < len-1)
+					{
+						output.text += "\t\t["+frames[i].x+", "+frames[i].y+", "+frames[i].width+", "+frames[i].height+"],\n";
+					}
+					else
+					{
+						output.text += "\t\t["+frames[i].x+", "+frames[i].y+", "+frames[i].width+", "+frames[i].height+"]\n";
+					}
+				}
+				output.text += "\t]\n\n";
+				output.text += "\t\"animations\": {\n";
+				len = animations.length;
+				for(i=0; i<len; i++) 
+				{
+					if(i < len-1)
+					{
+						output.text += "\t\t\""+animations[i]+"\":["+i+"],\n";
+					}
+					else
+					{
+						output.text += "\t\t\""+animations[i]+"\":["+i+"]\n";
+					}
+				}
+				output.text += "\t}\n\n";
+				output.text += "}";
 			}
 			
 			private function handleCancel(event:Event):void
@@ -65,7 +123,7 @@
 				switch(event.currentTarget)
 				{
 					case browseBtn:
-						fileSystem.browseForOpen("Select the fnt file that you wish to convert.", [txtFilter]);
+						file.browseForOpen("Select the fnt file that you wish to convert.", [txtFilter]);
 						break;
 					case convertBtn:
 						loadFntFile();
@@ -81,7 +139,14 @@
 			
 			private function loadFntFile():void
 			{
+				fileStream = new FileStream();
+				fileStream.open(file, FileMode.READ);
+				fntXML = XML(fileStream.readUTFBytes(fileStream.bytesAvailable));
+				fileStream.close();
 				
+				charList = fntXML..char;
+				trace("charList: "+charList.length());
+				generateOutput();
 			}
 			
 		]]>
@@ -102,6 +167,6 @@
 		</s:HGroup>
 		<s:Spacer height="10" />
 		<s:Label fontSize="18" text="Output:" />
-		<s:TextArea width="100%" height="100%" />
+		<s:TextArea id="output" width="100%" height="100%" />
 	</s:VGroup>
 </s:WindowedApplication>
