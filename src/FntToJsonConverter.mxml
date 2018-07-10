@@ -69,6 +69,10 @@
 				var len:uint = charList.length();
 				for(var i:int=0; i<len; i++) 
 				{
+					if(charList[i].@id == 32)
+					{
+						continue;
+					}
 					curFrame = {};
 					curFrame.x = charList[i].@x;
 					curFrame.y = charList[i].@y;
