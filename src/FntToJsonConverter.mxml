@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   showStatusBar="false"
+					   width="1024"
+					   height="768"
+					   applicationComplete="_handleAppComplete(event)">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Properties
+			//
+			//--------------------------------------------------------------------------
+			
+			//----------------------------------
+			//  Private:
+			//----------------------------------
+			
+			
+			//--------------------------------------------------------------------------
+			//
+			//  Methods
+			//
+			//--------------------------------------------------------------------------
+			
+			//----------------------------------
+			//  Private:
+			//----------------------------------
+			
+			private function _handleAppComplete(event:FlexEvent):void
+			{
+				//_init();
+			}
+		]]>
+	</fx:Script>
+	
+	<s:VGroup paddingBottom="12" paddingLeft="12" paddingRight="12" horizontalAlign="left" verticalAlign="top" width="100%" height="100%">
+		<s:Label fontSize="32" text="Fnt to Json Converter" paddingTop="12" textAlign="center" width="100%" />
+		<s:Label fontSize="14" text="A tool used to convert standard bitmap text .fnt files to .json files for use with CreateJS" paddingTop="12" textAlign="center" width="100%" />
+		<s:Spacer height="10" />
+		<s:HGroup verticalAlign="middle" width="100%">
+			<s:Label fontSize="18" text="Font file to convert:" />
+			<s:TextInput id="targetFile" editable="false" width="100%" />
+			<s:Button id="browseBtn" label="Browse" />
+		</s:HGroup>
+		<s:Spacer height="10" />
+		<s:HGroup horizontalAlign="center" width="100%">
+			<s:Button label="Convert" />
+		</s:HGroup>
+		<s:Spacer height="10" />
+		<s:Label fontSize="18" text="Output:" />
+		<s:TextArea width="100%" height="100%" />
+	</s:VGroup>
+</s:WindowedApplication>
