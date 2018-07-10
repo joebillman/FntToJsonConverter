@@ -80,7 +80,7 @@
 				output.text = "{\n\n";
 				output.text += "\t\"images\": [\n";
 				output.text += "\t\t\""+fntXML.pages[0].page[0].@file+"\"\n";
-				output.text += "\t]\n\n";
+				output.text += "\t],\n\n";
 				output.text += "\t\"frames\": [\n";
 				len = frames.length;
 				for(i=0; i<len; i++) 
@@ -94,7 +94,7 @@
 						output.text += "\t\t["+frames[i].x+", "+frames[i].y+", "+frames[i].width+", "+frames[i].height+"]\n";
 					}
 				}
-				output.text += "\t]\n\n";
+				output.text += "\t],\n\n";
 				output.text += "\t\"animations\": {\n";
 				len = animations.length;
 				for(i=0; i<len; i++) 
