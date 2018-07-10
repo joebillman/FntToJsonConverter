@@ -145,7 +145,6 @@
 				fileStream.close();
 				
 				charList = fntXML..char;
-				trace("charList: "+charList.length());
 				generateOutput();
 			}
 			
