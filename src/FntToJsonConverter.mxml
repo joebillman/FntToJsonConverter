@@ -24,6 +24,8 @@
 			//  Private:
 			//----------------------------------
 			
+			private var fileSystem:File;
+			private var urlToFile:String;
 			
 			//--------------------------------------------------------------------------
 			//
@@ -37,8 +39,51 @@
 			
 			private function _handleAppComplete(event:FlexEvent):void
 			{
-				//_init();
+				_init();
 			}
+			
+			private function _init():void
+			{
+				createFileSystem();
+			}
+			
+			private function createFileSystem():void
+			{
+				fileSystem = new File();
+				fileSystem.addEventListener(Event.CANCEL, handleCancel, false, 0, true);
+				fileSystem.addEventListener(Event.SELECT, handleSelect, false, 0, true);
+			}
+			
+			private function handleCancel(event:Event):void
+			{
+				
+			}
+			
+			private function handleClick(event:MouseEvent):void
+			{
+				var txtFilter:FileFilter = new FileFilter("Text", "*.fnt");
+				switch(event.currentTarget)
+				{
+					case browseBtn:
+						fileSystem.browseForOpen("Select the fnt file that you wish to convert.", [txtFilter]);
+						break;
+					case convertBtn:
+						loadFntFile();
+						break;
+				}
+			}
+			
+			private function handleSelect(event:Event):void
+			{
+				urlToFile = event.currentTarget.url;
+				targetFile.text = event.currentTarget.nativePath;
+			}
+			
+			private function loadFntFile():void
+			{
+				
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -49,11 +94,11 @@
 		<s:HGroup verticalAlign="middle" width="100%">
 			<s:Label fontSize="18" text="Font file to convert:" />
 			<s:TextInput id="targetFile" editable="false" width="100%" />
-			<s:Button id="browseBtn" label="Browse" />
+			<s:Button id="browseBtn" click="handleClick(event)" label="Browse" />
 		</s:HGroup>
 		<s:Spacer height="10" />
 		<s:HGroup horizontalAlign="center" width="100%">
-			<s:Button label="Convert" />
+			<s:Button id="convertBtn" click="handleClick(event)" label="Convert" />
 		</s:HGroup>
 		<s:Spacer height="10" />
 		<s:Label fontSize="18" text="Output:" />
